@@ -20,23 +20,6 @@ public class ProductResource {
     ProductService productService;
     private Logger LOGGER = LoggerFactory.getLogger(ProductResource.class);
 
-    @PostMapping("/product")
-    public Product save(@RequestBody Product product)throws Exception{
-        LOGGER.info("Rest request to save product data:{}",product);
-        if(product.getId() != null){
-            throw new Exception("Cant save product with id");
-        }
-        return productService.save(product);
-    }
-    @PutMapping("/product")
-    public Product updateAddress(@RequestBody Product product)throws Exception{
-        LOGGER.info("Rest request to update product with id:{}",product);
-        if(product.getId() == null){
-            throw new Exception("Cant update product with a null id:{}");
-        }
-        return productService.save(product);
-
-    }
     @GetMapping("/Product/{id}")
     public Product getById(@PathVariable Long id){
         LOGGER.info("Rest request to get product  by id:{}", id);
@@ -49,16 +32,5 @@ public class ProductResource {
         return productService.findAll();
     }
 
-    @DeleteMapping("/product/{id}")
-    public void deleteById(@PathVariable Long id){
-        LOGGER.info("Rest request to delete product by id:{}",id);
-        productService.deleteById(id);
-    }
-
-    @DeleteMapping("/product")
-    public void deleteAll(){
-        LOGGER.info("Rest request to delete product:");
-        productService.deleteAll();
-    }
 
 }

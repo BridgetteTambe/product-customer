@@ -1,8 +1,6 @@
 package com.bree.com.models;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -10,6 +8,9 @@ import java.math.BigDecimal;
 @Setter
 @Getter
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 
 @Entity
 @Table(name="products")
@@ -23,9 +24,9 @@ public class Product {
 
     //The product Id will be use to link us back to the products in admin
     @Column(name = "product_id", unique = true, updatable = false)
-    private Long Id;
+    private String productId;
 
-    @Column(name = "price", precision = 3)
+    @Column(name = "price")
     private BigDecimal price;
 
     @Column(name = "discount")

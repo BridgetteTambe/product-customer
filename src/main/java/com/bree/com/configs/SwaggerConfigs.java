@@ -34,8 +34,8 @@ public class SwaggerConfigs implements WebMvcConfigurer {
      */
     private ApiInfo customerInfo() {
 
-        return new ApiInfo("SchoolApp", // Title
-                "School App Api's", // Description
+        return new ApiInfo("Product Customer", // Title
+                "Customer App Api's", // Description
                 "1.0", // Version
                 "TOS", // Terms of Service
                 null,
