@@ -25,4 +25,6 @@ public interface CustomerService {
     List<Customer> findAll();
 
 
+    Customer login(String email, String password);
+
 }

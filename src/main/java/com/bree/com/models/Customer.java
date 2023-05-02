@@ -18,8 +18,6 @@ public class Customer extends Person {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "position")
-    private String position;
     @Column(name = "password")
     private String password;
 
@@ -28,5 +26,8 @@ public class Customer extends Person {
 
     @OneToMany
     private Set<Order> order;
+
+
+
 
 }

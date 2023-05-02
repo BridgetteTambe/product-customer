@@ -20,7 +20,9 @@ public abstract class Person {
 
     @Column(name = "last_name")
     private String surname;
-    @Column(name = "email")
+
+
+    @Column(name = "email",unique = true)
     private String email;
     @Column(name = "phone_number")
     private String phoneNumber;

@@ -51,4 +51,9 @@ customerRepository.deleteById(id);
     public List<Customer> findAll() {
         return customerRepository.findAll();
     }
+
+    @Override
+    public Customer login(String email, String password) {
+        return customerRepository.findByEmailAndPassword(email,password);
+    }
 }
