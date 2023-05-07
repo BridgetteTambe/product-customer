@@ -19,7 +19,7 @@ public abstract class Person {
     String firstName;
 
     @Column(name = "last_name")
-    private String surname;
+    private String lastName;
 
 
     @Column(name = "email",unique = true)
