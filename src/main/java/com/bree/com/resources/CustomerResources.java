@@ -68,7 +68,7 @@ public class CustomerResources {
         LOGGER.info("Rest request to get email and password: {} {}", email, password);
         Customer customer = customerService.login(email, password);
         if (ObjectUtils.isEmpty(customer)) {
-            throw new RuntimeException("Invalid username or password!");
+            throw new RuntimeException("Invalid email or password!");
         }
         return customer;
     }
