@@ -20,13 +20,13 @@ public class ProductResource {
     ProductService productService;
     private Logger LOGGER = LoggerFactory.getLogger(ProductResource.class);
 
-    @GetMapping("/Product/{id}")
+    @GetMapping("/products/{id}")
     public Product getById(@PathVariable Long id){
         LOGGER.info("Rest request to get product  by id:{}", id);
         return productService.findById(id);
     }
 
-    @GetMapping("/product")
+    @GetMapping("/products")
     List<Product> findAll() {
         LOGGER.info("Rest request to get all product:");
         return productService.findAll();
