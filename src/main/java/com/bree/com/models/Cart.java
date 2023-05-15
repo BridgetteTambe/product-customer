@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -21,6 +22,6 @@ public class Cart {
     private Long id;
 
     @OneToMany
-    private Set<Product> products;
+    private Set<Product> products = new HashSet<>();
 
 }

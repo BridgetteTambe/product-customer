@@ -15,8 +15,12 @@ import java.time.LocalDate;
 @MappedSuperclass
 public abstract class Person {
 
+    @Column(name = "id_number")
+    private Long idNumber;
     @Column(name = "first_name")
     String firstName;
+
+
 
     @Column(name = "last_name")
     private String lastName;

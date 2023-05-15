@@ -27,7 +27,7 @@ public class Customer extends Person {
     @OneToMany
     private Set<Order> order;
 
-
-
+    @OneToOne(cascade ={CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH})
+    private Cart cart;
 
 }
