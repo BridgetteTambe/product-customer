@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Set;
 
 @Data
@@ -13,20 +14,21 @@ import java.util.Set;
 
 @Entity
 @Table(name = "customer")
-public class Customer extends Person {
+public class Customer extends Person  implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "password")
+    @Column(name = "password", unique = true)
     private String password;
 
-    @OneToOne
+    @OneToOne(cascade ={CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH})
     private Address address;
 
     @OneToMany
     private Set<Order> order;
 
+//    what is the purpose of this
     @OneToOne(cascade ={CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH})
     private Cart cart;
 

@@ -35,7 +35,7 @@ public class ProcessProductSchedule {
     /**
      * THis will run every 2 minute
      */
-   // @Scheduled(fixedDelay = 1000l * 100)
+   @Scheduled(fixedDelay = 1000l * 100)
     public void processProducts() {
         LOG.info("processProducts ran at: {}", LocalDateTime.now());
 
