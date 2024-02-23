@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.Instant;
 
 @Setter
 @Getter
@@ -15,7 +16,7 @@ import java.math.BigDecimal;
 @Entity
 @Table(name="products")
 public class Product {
-
+    public static final String SEQUENCE_NAME = "product";
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -37,6 +38,7 @@ public class Product {
     private String weight;
 
     private Long quantity;
+    private Instant syncDate;
 
 
 }

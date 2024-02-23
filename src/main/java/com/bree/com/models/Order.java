@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -21,4 +22,7 @@ public class Order {
 
     @ManyToMany
     private Set<Product> products;
+
+    public void setOrderPlacedDate(LocalDateTime now) {
+    }
 }

@@ -7,20 +7,24 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 @Component
+@Profile("syn-products")
 public class ProcessProductSchedule {
     private static final Logger LOG = LoggerFactory.getLogger(ProcessProductSchedule.class);
     @Autowired
@@ -35,35 +39,38 @@ public class ProcessProductSchedule {
     /**
      * THis will run every 2 minute
      */
-   @Scheduled(fixedDelay = 1000l * 100)
+    @Scheduled(fixedDelay = 1000l * 100)
     public void processProducts() {
         LOG.info("processProducts ran at: {}", LocalDateTime.now());
 
         List<ProductDto> productsFromAdmin = getProductsFromAdmin();
+        if (!ObjectUtils.isEmpty(productsFromAdmin)) {
 //        List of products to be save in mysql
-        List<Product> productList = new ArrayList<>();
+            List<Product> productList = new ArrayList<>();
 
-        productsFromAdmin.forEach((adminProduct) -> {
-            Product product = new Product();
-            product.setName(adminProduct.getName());
-            product.setCategory(adminProduct.getCategory());
-            product.setPrice(adminProduct.getPrice());
-            product.setDiscount(adminProduct.getDiscount());
-            product.setWeight(adminProduct.getWeight());
-            product.setQuantity(adminProduct.getQuantity());
-            product.setProductId(adminProduct.getId());
+            productsFromAdmin.forEach((adminProduct) -> {
+                Product product = new Product();
+                product.setName(adminProduct.getName());
+                product.setCategory(adminProduct.getCategory());
+                product.setPrice(adminProduct.getPrice());
+                product.setDiscount(adminProduct.getDiscount());
+                product.setWeight(adminProduct.getWeight());
+                product.setQuantity(adminProduct.getQuantity());
+                product.setProductId(adminProduct.getId());
+                product.setSyncDate(adminProduct.getCreatedDate());
 
-            productList.add(product);
-            // setting processed to true
-            adminProduct.setProcessed(true);
-        });
+                productList.add(product);
+                // setting processed to true
+                adminProduct.setProcessed(true);
+            });
 
-        this.productService.saveAll(productList);
-        this.updateProductsInAdmin(productsFromAdmin);
+            this.productService.saveAll(productList);
+            this.updateProductsInAdmin(productsFromAdmin);
+        }
     }
 
 
-//    What is the main function of this???
+    //    What is the main function of this???
     private List<ProductDto> getProductsFromAdmin() {
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
@@ -72,10 +79,15 @@ public class ProcessProductSchedule {
 
         RestTemplate restTemplate = new RestTemplate();
 
+        try {
 //        ProductDto[] products = restTemplate.exchange("http://localhost:8080/api/products/not-process", HttpMethod.GET, entity, ProductDto[].class).getBody();
-        ProductDto[] products = restTemplate.exchange(notProcessProductsUrl, HttpMethod.GET, entity, ProductDto[].class).getBody();
-        List<ProductDto> productList = Arrays.asList(products);
-        return productList;
+            ProductDto[] products = restTemplate.exchange(notProcessProductsUrl, HttpMethod.GET, entity, ProductDto[].class).getBody();
+            List<ProductDto> productList = Arrays.asList(products);
+            return productList;
+        } catch (Exception e) {
+            LOG.error(e.getMessage());
+            return null;
+        }
     }
 
     private List<ProductDto> updateProductsInAdmin(List<ProductDto> productDtos) {
@@ -83,10 +95,14 @@ public class ProcessProductSchedule {
         HttpEntity<List<ProductDto>> entity = new HttpEntity<>(productDtos);
 
         RestTemplate restTemplate = new RestTemplate();
-
-        ProductDto[] products = restTemplate.exchange(updateProcessedProductsUrl, HttpMethod.PUT, entity, ProductDto[].class).getBody();
-        List<ProductDto> productList = Arrays.asList(products);
-        return productList;
+        try {
+            ProductDto[] products = restTemplate.exchange(updateProcessedProductsUrl, HttpMethod.PUT, entity, ProductDto[].class).getBody();
+            List<ProductDto> productList = Arrays.asList(products);
+            return productList;
+        } catch (Exception e) {
+            LOG.error(e.getMessage());
+            return null;
+        }
     }
 
 }

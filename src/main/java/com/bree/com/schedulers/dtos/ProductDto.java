@@ -2,6 +2,7 @@ package com.bree.com.schedulers.dtos;
 
 import lombok.Data;
 import java.math.BigDecimal;
+import java.time.Instant;
 
 @Data
 public class ProductDto {
@@ -14,4 +15,5 @@ public class ProductDto {
     private Long quantity;
     private String adminId;
     private Boolean processed;
+    private Instant  createdDate;
 }
