@@ -9,7 +9,7 @@ public interface ProductService {
 
     Product save(Product product);
 
-    List<Product> saveAll(List<Product>  product);
+    List<Product> saveAll(List<Product> product);
 
 
     Product update(Product product);
@@ -22,5 +22,5 @@ public interface ProductService {
 
     List<Product> findAll();
 
-
+    public Product findByProductId(String productId);
 }

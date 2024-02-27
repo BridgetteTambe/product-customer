@@ -46,6 +46,12 @@ productRepository.deleteById(id);
     }
 
     @Override
+    public Product findByProductId(String productId) {
+        Optional<Product>findById = productRepository.findByProductId(productId);
+        return findById.orElse(null);
+    }
+
+    @Override
     public List<Product> findAll() {
         return productRepository.findAll();
     }
